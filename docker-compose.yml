@@ -30,6 +30,7 @@ services:
       - ./frontend/my-store/dist:/usr/share/nginx/html
       - static_volume:/app/staticfiles:ro
       - media_volume:/app/media/
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - backend
 
