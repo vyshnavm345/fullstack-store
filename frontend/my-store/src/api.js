@@ -1,5 +1,5 @@
 // const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const BASE_URL = "https://mysampleshop.shop/api";
+const BASE_URL = "https://mysampleshop.shop";
 export const API = {
     BASE: BASE_URL,
     LOGIN: `${BASE_URL}/api/token/`,
