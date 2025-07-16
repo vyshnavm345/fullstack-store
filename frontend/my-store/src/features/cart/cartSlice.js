@@ -44,25 +44,31 @@ export const updateCartItem = createAsyncThunk(
         }
 );
 
+
+
 export const addToCart = createAsyncThunk(
     "cart/addToCart",
     async ({ product, quantity }, { rejectWithValue }) => {
         const access = localStorage.getItem("access");
+        if (!access) {
+            // no token → not logged in
+            return rejectWithValue({ login: true });
+        }
         try {
             const response = await axios.post(
-            API.CART,
+                API.CART,
             { product, quantity },
-            {
-                headers: {
-                Authorization: `Bearer ${access}`,
-                },
-            }
+            { headers: { Authorization: `Bearer ${access}` } }
             );
             return response.data;
-        } catch (error) {
-            return rejectWithValue(error.response.data || "Add to cart failed");
+        } catch (err) {
+            if (err.response?.status === 401) {
+            // token expired or invalid
+            return rejectWithValue({ login: true });
+            }
+            return rejectWithValue(err.response?.data || "Add to cart failed");
         }
-    }
+        }
 );
 
 
